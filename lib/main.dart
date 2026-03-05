@@ -24,8 +24,8 @@ class TaskManagement extends StatelessWidget {
     return GetMaterialApp(
       title: 'Task Management',
       // home:  const  SplashScreen(),
-      home: UgcTaskStatusScreen(),
-      // home: UgcMainBottomNav(),
+      // home: UgcTaskStatusScreen(),
+      home: UgcMainBottomNav(),
       debugShowCheckedModeBanner: false,
     );
   }
