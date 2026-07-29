@@ -1,12 +1,12 @@
 # 📱 Daily Task
 
 ## 📌 Project Overview
-**Deily Task** is a task management application designed specifically for children, including those with autism, with supervision and control features for parents or teachers. The platform helps guide children through structured daily tasks while allowing guardians to monitor progress and provide support.
+**Daily Task** is a task management application designed specifically for children, including those with autism, with supervision and control features for parents or teachers. The platform helps guide children through structured daily tasks while allowing guardians to monitor progress and provide support.
 
 ---
 
 ## 🎯 Purpose
-The goal of Deily Task is to:
+The goal of Daily Task is to:
 - Encourage routine and responsibility in children
 - Provide a structured task system for children with special needs
 - Enable parents and teachers to guide and monitor activities effectively
@@ -49,10 +49,10 @@ The goal of Deily Task is to:
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/deilytask.git
+git clone https://github.com/Rakibul-DevHub/daily_task.git
 
 # Navigate to the project directory
-cd deilytask
+cd dailytask
 
 # Install dependencies
 flutter pub get
