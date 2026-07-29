@@ -1,12 +1,12 @@
 # 📱 Daily Task
 
 ## 📌 Project Overview
-**AskFemi** is a task management application designed specifically for children, including those with autism, with supervision and control features for parents or teachers. The platform helps guide children through structured daily tasks while allowing guardians to monitor progress and provide support.
+**Deily Task** is a task management application designed specifically for children, including those with autism, with supervision and control features for parents or teachers. The platform helps guide children through structured daily tasks while allowing guardians to monitor progress and provide support.
 
 ---
 
 ## 🎯 Purpose
-The goal of AskFemi is to:
+The goal of Deily Task is to:
 - Encourage routine and responsibility in children
 - Provide a structured task system for children with special needs
 - Enable parents and teachers to guide and monitor activities effectively
@@ -49,10 +49,10 @@ The goal of AskFemi is to:
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/askfemi.git
+git clone https://github.com/your-username/deilytask.git
 
 # Navigate to the project directory
-cd askfemi
+cd deilytask
 
 # Install dependencies
 flutter pub get
