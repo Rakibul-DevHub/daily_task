@@ -1,4 +1,4 @@
-# 📱 AskFemi
+# 📱 Daily Task
 
 ## 📌 Project Overview
 **AskFemi** is a task management application designed specifically for children, including those with autism, with supervision and control features for parents or teachers. The platform helps guide children through structured daily tasks while allowing guardians to monitor progress and provide support.
