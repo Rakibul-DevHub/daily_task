@@ -1,8 +1,8 @@
 class AppUrl {
   AppUrl._();
 
-  static const String baseUrl = 'https://newsheakh6733.sobhoy.com/api/v1';
-  static const String imageBaseUrl = 'https://newsheakh6733.sobhoy.com';
+  static const String baseUrl = 'https://tonmoy3001.sobhoy.com/api/v1';
+  static const String imageBaseUrl = 'https://tonmoy3001.sobhoy.com';
 
   /// ============================================
   /// =================== Auth ===================
