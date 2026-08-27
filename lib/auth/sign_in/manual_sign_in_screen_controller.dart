@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../../features/individual_user/views/home/app_open_home_screen.dart';
 import '../../screens/get_started/get_started_screen.dart';
+import '../../utils/fcm/fcm_token_service.dart';
 import '../../utils/network/app_url.dart';
 import '../../utils/network/network_caller_dio.dart';
 import '../../utils/network/network_response_dio.dart';
@@ -18,6 +20,13 @@ class ManualSignInScreenController extends GetxController {
   UserModel? loggedInUser;
   bool isSubscribed = false;
 
+  Map<String, dynamic>? _asMap(dynamic value) {
+    if (value is Map) {
+      return Map<String, dynamic>.from(value);
+    }
+    return null;
+  }
+
   /// ================= LOGIN =================
   Future<bool> signIn({
     required String email,
@@ -26,10 +35,16 @@ class ManualSignInScreenController extends GetxController {
     _isLoading = true;
     update();
 
-    final body = {
-      "email": email,
-      "password": password,
+    final fcmToken = await FcmTokenService.getToken();
+
+    final body = <String, dynamic>{
+      'email': email,
+      'password': password,
     };
+
+    if (fcmToken.isNotEmpty) {
+      body['fcmToken'] = fcmToken;
+    }
 
     NetworkResponseDio response = await _networkCaller.postRequest(
       AppUrl.loginIndividualAndChildren,
@@ -42,58 +57,53 @@ class ManualSignInScreenController extends GetxController {
 
     if (response.isSuccess) {
       try {
-        final data = response.jsonResponse?['data']?['attributes'];
+        final data = _asMap(response.jsonResponse?['data']);
+        final attributes = _asMap(data?['attributes']) ?? data;
 
-        // Parse user
-        final userJson = data?['user'];
+        final userJson = _asMap(attributes?['userWithoutPassword']) ??
+            _asMap(attributes?['user']);
         if (userJson == null) {
-          Get.snackbar("Error", "User data not found");
+          debugPrint('❌ Login response: ${response.jsonResponse}');
+          Get.snackbar('Error', 'User data not found');
           return false;
         }
 
         loggedInUser = UserModel.fromJson(userJson);
 
-        // Extract subscription info
-        final subscription = data?['subscription'];
+        final subscription = _asMap(attributes?['subscription']);
         if (subscription != null) {
           isSubscribed = subscription['isSubscribed'] ?? false;
           print('📋 Subscription status: isSubscribed = $isSubscribed');
         }
 
-        // Extract tokens
-        final tokens = data?['tokens'];
+        final tokens = _asMap(attributes?['tokens']);
         final accessToken = tokens?['accessToken'];
         final refreshToken = tokens?['refreshToken'];
 
         if (accessToken == null) {
-          Get.snackbar("Error", "Access token not found");
+          Get.snackbar('Error', 'Access token not found');
           return false;
         }
 
-        // ✅ Save tokens using instance
         await SecureStorageService.instance.saveAccessToken(accessToken);
         if (refreshToken != null) {
           await SecureStorageService.instance.saveRefreshToken(refreshToken);
         }
 
-        // ✅ Save user data using instance
         await SecureStorageService.instance.saveUserData(loggedInUser!.toJson());
-
-        // ✅ Save subscription status
         await SecureStorageService.instance.saveSubscriptionStatus(isSubscribed);
 
-        // Navigate by role and subscription status
         _navigateByRoleAndSubscription();
 
         return true;
       } catch (e) {
-        Get.snackbar("Error", "Parsing failed: ${e.toString()}");
+        Get.snackbar('Error', 'Parsing failed: ${e.toString()}');
         return false;
       }
     } else {
       Get.snackbar(
-        "Login Failed",
-        "Something went wrong",
+        'Login Failed',
+        response.errorMessage ?? 'Something went wrong',
       );
       return false;
     }
@@ -103,31 +113,25 @@ class ManualSignInScreenController extends GetxController {
   void _navigateByRoleAndSubscription() {
     if (loggedInUser == null) return;
 
-    // For child role - go to UGC home
     if (loggedInUser!.role == 'child') {
       Get.offAll(() => UgcMainBottomNav());
       return;
     }
 
-    // For individual role - check subscription
     if (loggedInUser!.role == 'individual') {
       if (isSubscribed) {
-        // User has active subscription - go to main bottom nav
         print('✅ User has active subscription - navigating to MainBottomNav');
         Get.offAll(() => MainBottomNav());
       } else {
-        // User has no subscription - go to AppOpenHomeScreen
         print('⚠️ User has no active subscription - navigating to AppOpenHomeScreen');
         Get.offAll(() => const AppOpenHomeScreen());
       }
       return;
     }
 
-    // Default fallback
     Get.offAll(() => GetStartedScreen());
   }
 
-  /// Get subscription status
   bool getSubscriptionStatus() {
     return isSubscribed;
   }

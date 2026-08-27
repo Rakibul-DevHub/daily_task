@@ -98,6 +98,7 @@ class LogoutController extends GetxController {
 // utils/logout_controller.dart
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import '../utils/fcm/fcm_token_service.dart';
 import '../utils/network/app_url.dart';
 import '../utils/network/secure_storage_service.dart';
 import '../utils/temp/cache.dart';
@@ -190,6 +191,8 @@ class LogoutController extends GetxController {
 
   Future<void> _clearLocalDataAndNavigate() async {
     try {
+      await FcmTokenService.deleteToken();
+      FcmTokenService.clearCache();
       await SecureStorageService.instance.clearAll();
       await CacheService.clearCache();
       Get.offAll(() =>  SignInScreen());
