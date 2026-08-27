@@ -73,6 +73,7 @@ void main() async {
 
   await GetStorage.init();
 
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   // Initialize Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
