@@ -17,6 +17,8 @@ class AppUrl {
   static const String loginIndividualAndChildren =
       // '$baseUrl/auth/login/individual-user';
   '$baseUrl/auth/login/v2';
+
+  static const String googleSignIn = '$baseUrl/api/v1/auth/google';
   static const String getPersonalInformation = '$baseUrl/users/profile/v2';
   static const String updatePersonalInformationProfileData =
       '$baseUrl/users/profile-info';

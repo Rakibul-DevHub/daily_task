@@ -310,7 +310,16 @@ class SignInScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
 
-                    SvgPicture.asset("assets/icons/google.svg"),
+                    GestureDetector(
+                      onTap: () {
+                        Get.find<GoogleSignInScreenController>()
+                            .signInWithGoogle();
+                      },
+                      child: SvgPicture.asset(
+                        "assets/icons/google.svg",
+                      ),
+                    ),
+
                     const SizedBox(height: 20),
 
                   ],
