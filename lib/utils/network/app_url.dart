@@ -15,10 +15,10 @@ class AppUrl {
 
 
   static const String loginIndividualAndChildren =
-      // '$baseUrl/auth/login/individual-user';
-  '$baseUrl/auth/login/v2';
+  // '$baseUrl/auth/login/individual-user';
+      '$baseUrl/auth/login/v2';
 
-  static const String googleSignIn = '$baseUrl/api/v1/auth/google';
+  static const String googleSignIn = '$baseUrl/auth/google';
   static const String getPersonalInformation = '$baseUrl/users/profile/v2';
   static const String updatePersonalInformationProfileData =
       '$baseUrl/users/profile-info';
@@ -52,12 +52,15 @@ class AppUrl {
   static String getTaskDetails(String taskId) {
     return '$baseUrl/tasks/$taskId';
   }
+
   static String taskStatusUpdate(String taskId) {
     return '$baseUrl/tasks/$taskId/status/v5';
   }
+
   static String taskStatusStart(String taskId) {
     return '$baseUrl/tasks/$taskId/status';
   }
+
   static String updateSubTaskStatus(String taskId, String subtaskId) {
     return '$baseUrl/sub-task-progress/$taskId/subtasks/$subtaskId/toggle-status';
   }
@@ -96,6 +99,7 @@ class AppUrl {
   static String editTask(String taskId) {
     return '$baseUrl/tasks/$taskId/v2';
   }
+
   static String deleteTask(String taskId) {
     return '$baseUrl/tasks/$taskId';
   }
@@ -123,10 +127,12 @@ class AppUrl {
   ///-------------------
 
 
-
   static const String getUserIndividualTaskHistory = '$baseUrl/tasks/history';
   static const String getSubscription = '$baseUrl/subscription-plan/paginate?isActive=true&subscriptionType=individual';
 
+  static String getSubscriptionRevenuecat(String subscriptionId) {
+    return '$baseUrl/subscription-plan/revenuecat-purchase/$subscriptionId';
+  }
 
 
 }
