@@ -13,6 +13,7 @@ import 'firebase_options.dart';
 import 'utils/fcm/firebase_messaging_background.dart';
 import 'utils/fcm/fcm_token_service.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
