@@ -7,30 +7,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'firebase_options.dart';
+import 'utils/fcm/firebase_messaging_background.dart';
+import 'utils/fcm/fcm_token_service.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
   await GetStorage.init();
-  runApp(const TaskManagement());
+
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  await FcmTokenService.initialize();
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-}
 
+  runApp(const TaskManagement());
+}
 
 class TaskManagement extends StatelessWidget {
   const TaskManagement({super.key});
 
-  // This model is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Task Management',
-      home:  const  SplashScreen(),
+      home: const SplashScreen(),
       // home: AppOpenHomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
-

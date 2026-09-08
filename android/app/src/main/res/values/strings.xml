@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Firebase Web OAuth client ID for Google Sign-In backend verification -->
+    <string name="default_web_client_id">96250300840-9afaam17misoakmrp8rtjaeh3msishtj.apps.googleusercontent.com</string>
+</resources>

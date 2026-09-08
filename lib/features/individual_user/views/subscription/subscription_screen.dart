@@ -340,7 +340,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/app_texts_style.dart';
-import '../choose_support_mode/choose_support_mode_screen.dart';
 import 'subscription_controller.dart';
 
 class SubscriptionPage extends StatelessWidget {
@@ -455,6 +454,8 @@ class SubscriptionPage extends StatelessWidget {
       SubscriptionPlan plan,
       bool fromProfile,
       ) {
+    final controller = Get.find<SubscriptionController>();
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -568,42 +569,52 @@ class SubscriptionPage extends StatelessWidget {
           // Button: Cancel if fromProfile, otherwise Get Started
           SizedBox(
             width: double.infinity,
-            child: ElevatedButton(
-              onPressed: fromProfile
-                  ? () {
-                // Cancel subscription logic
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Subscription cancelled!'),
+            child: Obx(() {
+              final purchasing = controller.isPurchasing.value;
+              return ElevatedButton(
+                onPressed: purchasing
+                    ? null
+                    : fromProfile
+                        ? () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Subscription cancelled!'),
+                              ),
+                            );
+                          }
+                        : () => controller.purchaseIndividualSubscription(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: fromProfile
+                      ? AppColors.liteRedColor
+                      : AppColors.primaryColor,
+                  foregroundColor:
+                      fromProfile ? AppColors.red : AppColors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                );
-              }
-                  : () {
-                Get.offAll(
-                      () => const ChooseSupportModeScreen(),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: fromProfile
-                    ? AppColors.liteRedColor
-                    : AppColors.primaryColor,
-                foregroundColor: fromProfile ? AppColors.red : AppColors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
                 ),
-              ),
-              child: Text(
-                fromProfile
-                    ? 'Cancel Subscription'
-                    : 'Get Started Now',
-                style: const TextStyle(
-                  fontFamily: "Plus Jakarta Sans",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ),
+                child: purchasing
+                    ? const SizedBox(
+                        height: 22,
+                        width: 22,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text(
+                        fromProfile
+                            ? 'Cancel Subscription'
+                            : 'Get Started Now',
+                        style: const TextStyle(
+                          fontFamily: "Plus Jakarta Sans",
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+              );
+            }),
           ),
           const SizedBox(height: 16),
 

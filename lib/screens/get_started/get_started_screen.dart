@@ -101,7 +101,15 @@ class _WelcomeText extends StatelessWidget {
             style: TextStyle(color: AppColors.black),
           ),
           TextSpan(
-            text: "Z3ns!",
+            text: "Z",
+            style: TextStyle(color: AppColors.primaryColor),
+          ),
+          TextSpan(
+            text: "3",
+            style: TextStyle(color: AppColors.primaryColor,fontSize: 45,fontWeight: FontWeight.bold),
+          ),
+          TextSpan(
+            text: "ns!",
             style: TextStyle(color: AppColors.primaryColor),
           ),
         ],

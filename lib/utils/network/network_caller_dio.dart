@@ -33,7 +33,7 @@ class NetworkCallerDio {
         case 'POST':
           response = await _dio.post(
             url,
-            data: jsonEncode(body),
+            data: jsonEncode(body ?? {}),
             options: Options(headers: requestHeaders),
           );
           break;
@@ -48,7 +48,7 @@ class NetworkCallerDio {
         case 'PUT':
           response = await _dio.put(
             url,
-            data: jsonEncode(body),
+            data: jsonEncode(body ?? {}),
             options: Options(headers: requestHeaders),
           );
           break;
@@ -64,7 +64,7 @@ class NetworkCallerDio {
         case 'PATCH':
           response = await _dio.patch(
             url,
-            data: jsonEncode(body),
+            data: jsonEncode(body ?? {}),
             options: Options(headers: requestHeaders),
           );
           break;
